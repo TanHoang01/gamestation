@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gamestation/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gamestation/models/user.dart';
 import 'package:gamestation/screens/home/home_screen.dart';
 import 'package:gamestation/screens/profile/change_password_screen.dart';
 import 'package:gamestation/screens/sign_in/sign_in_screen.dart';
@@ -14,50 +17,80 @@ class Profile extends StatefulWidget {
 
 class _Profile extends State<Profile> {
   bool tappedYes = false;
+  userModel userInfor = userModel(
+      id: '',
+      email: '',
+      fullName: '',
+      userName: '',
+      phoneNumber: '',
+      background: '',
+      avatar: '',
+      favoriteList: [],
+      saveList: [],
+      state: '',
+      follow: [],
+      token: '');
+  Future getUser(String uid) async {
+    FirebaseFirestore.instance
+        .collection('uses')
+        .where('userId', isEqualTo: uid)
+        .snapshots()
+        .listen((value) {
+      setState(() {
+        userInfor = userModel.fromDocument(value.docs.first.data());
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+    getUser(uid.toString());
+    print(userInfor.id);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 16, top: 25 ),
+      padding: EdgeInsets.only(left: 16, top: 25),
       child: ListView(
         children: [
-          Text( 
-            "Profile Information",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)
-          ),
+          Text("Profile Information",
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
           SizedBox(height: 15),
           Center(
-          child: Stack(
-              children: [
-                Container(
-                  width: 130,
-                  height: 130,
-                  decoration: BoxDecoration(
+              child: Stack(
+            children: [
+              Container(
+                width: 130,
+                height: 130,
+                decoration: BoxDecoration(
                     border: Border.all(
-                      width: 4,
-                      color: Theme.of(context).scaffoldBackgroundColor
-                    ),
-                    boxShadow: [ BoxShadow(
-                       spreadRadius: 2, blurRadius: 10,
-                       color: Colors.black.withOpacity(0.1),
-                       offset: Offset(0,10)
-                      )
+                        width: 4,
+                        color: Theme.of(context).scaffoldBackgroundColor),
+                    boxShadow: [
+                      BoxShadow(
+                          spreadRadius: 2,
+                          blurRadius: 10,
+                          color: Colors.black.withOpacity(0.1),
+                          offset: Offset(0, 10))
                     ],
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                      fit: BoxFit.contain,
-                      image: ExactAssetImage('assets/images/ps4.png')
-                    )                   
-                  ),
-                )
-              ],
-            )
-          ),
-          buildTextField("Full Name","Tan Hoang"),
-          buildTextField("Email","Tan@gmail.com"),
-          buildTextField("Phone","0123456789"),
-          buildTextField("Address","Ho Chi Minh"),
-          buildTextField("Purchased items","1"),
-          buildTextField("Sold items","1"),
+                        fit: BoxFit.contain,
+                        image: ExactAssetImage('assets/images/ps4.png'))),
+              )
+            ],
+          )),
+          buildTextField("Full Name", "Tan Hoang"),
+          buildTextField("Email", "Tan@gmail.com"),
+          buildTextField("Phone", "0123456789"),
+          buildTextField("Address", "Ho Chi Minh"),
+          buildTextField("Purchased items", "1"),
+          buildTextField("Sold items", "1"),
           SizedBox(height: 20),
           Column(
             children: [
@@ -65,22 +98,25 @@ class _Profile extends State<Profile> {
                 width: 150,
                 height: 40,
                 child: DecoratedBox(
-                  decoration:
-                      ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))), color: primaryColor),
+                  decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
+                      color: primaryColor),
                   child: Theme(
                     data: Theme.of(context).copyWith(
                         buttonTheme: ButtonTheme.of(context).copyWith(
-                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap)),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap)),
                     child: OutlineButton(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
                       child: Text('Change Password'),
                       onPressed: () => {
                         Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ChangePassword(),
-                        ))
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ChangePassword(),
+                            ))
                       },
                     ),
                   ),
@@ -91,32 +127,37 @@ class _Profile extends State<Profile> {
                 width: 150,
                 height: 40,
                 child: DecoratedBox(
-                  decoration:
-                      ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))), color: primaryColor),
+                  decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
+                      color: primaryColor),
                   child: Theme(
                     data: Theme.of(context).copyWith(
                         buttonTheme: ButtonTheme.of(context).copyWith(
-                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap)),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap)),
                     child: OutlineButton(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
-                      child: Text('Log out'),
-                      onPressed: () async {
-                        final action = await AlertDialogs.yesCancelDialog(context, 'Logout', 'Are you sure to quit?');
-                        if(action == DialogsAction.yes) {
-                          setState(() => tappedYes = true);
-                        }
-                      }
-                    ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
+                        child: Text('Log out'),
+                        onPressed: () async {
+                          final action = await AlertDialogs.yesCancelDialog(
+                              context, 'Logout', 'Are you sure to quit?');
+                          if (action == DialogsAction.yes) {
+                            setState(() => tappedYes = true);
+                          }
+                        }),
                   ),
                 ),
               ),
               SizedBox(height: 10),
               Container(
                 child: FlatButton(
-                child: Text('About us'),
-                onPressed: () {},
+                  child: Text('About us'),
+                  onPressed: () {},
+                ),
               ),
-            ),
             ],
           )
         ],
@@ -126,17 +167,14 @@ class _Profile extends State<Profile> {
 
   TextField buildTextField(String labletext, String placeholder) {
     return TextField(
-          focusNode: new AlwaysDisabledFocusNode(),
-          decoration: InputDecoration(
-            labelText: labletext,
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-            hintText: placeholder,
-            hintStyle: TextStyle(
-              fontSize: 16, fontWeight: FontWeight.bold,
-              color: Colors.black 
-            )
-          ),
-        );
+      focusNode: new AlwaysDisabledFocusNode(),
+      decoration: InputDecoration(
+          labelText: labletext,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          hintText: placeholder,
+          hintStyle: TextStyle(
+              fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black)),
+    );
   }
 }
 
