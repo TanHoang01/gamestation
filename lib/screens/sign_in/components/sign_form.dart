@@ -50,13 +50,12 @@ class _SignFormState extends State<SignForm> {
               Spacer(),
               GestureDetector(
                 onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ForgotPasswordScreen(),
-              )),
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ForgotPasswordScreen(),
+                    )),
                 child: Text(
-                  "Forgot Password",
+                  "Forgot Password?",
                   style: TextStyle(decoration: TextDecoration.underline),
                 ),
               )
@@ -72,11 +71,10 @@ class _SignFormState extends State<SignForm> {
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
                 Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              HomeScreen(),
-              ));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomeScreen(),
+                    ));
               }
             },
           ),

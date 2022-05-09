@@ -5,8 +5,7 @@ import 'package:gamestation/components/form_error.dart';
 import 'package:gamestation/screens/complete_profile/complete_profile_screen.dart';
 
 import '../../../constants.dart';
-
-
+import '../../../controllers/firebase.dart';
 
 class SignUpForm extends StatefulWidget {
   @override
@@ -54,12 +53,13 @@ class _SignUpFormState extends State<SignUpForm> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
-                Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                             CompleteProfileScreen(),
-              ));
+                //   Navigator.push(
+                //           context,
+                //           MaterialPageRoute(
+                //             builder: (context) =>
+                //                CompleteProfileScreen(),
+                // ));
+                sign_up(email!, password!, context);
               }
             },
           ),
