@@ -3,7 +3,8 @@ import 'package:gamestation/components/custom_surfix_icon.dart';
 import 'package:gamestation/components/default_buttom.dart';
 import 'package:gamestation/components/form_error.dart';
 import 'package:gamestation/components/no_account_text.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../constants.dart';
 
@@ -48,60 +49,54 @@ class ForgotPassForm extends StatefulWidget {
 
 class _ForgotPassFormState extends State<ForgotPassForm> {
   final _formKey = GlobalKey<FormState>();
-  List<String> errors = [];
-  String? email;
+  final auth = FirebaseAuth.instance;
+  final TextEditingController emailController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final emailField = TextFormField(
+        autofocus: false,
+        controller: emailController,
+        keyboardType: TextInputType.emailAddress,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return ("Please Enter Your Email");
+          }
+          // reg expression for email validation
+          if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+              .hasMatch(value)) {
+            return ("Please Enter a valid email");
+          }
+          return null;
+        },
+        onSaved: (value) {
+          emailController.text = value!;
+        },
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.mail),
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Email",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ));
     return Form(
       key: _formKey,
-      child: Column(
-        children: [
-          TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            onSaved: (newValue) => email = newValue,
-            onChanged: (value) {
-              if (value.isNotEmpty && errors.contains(kEmailNullError)) {
-                setState(() {
-                  errors.remove(kEmailNullError);
-                });
-              } else if (emailValidatorRegExp.hasMatch(value) &&
-                  errors.contains(kInvalidEmailError)) {
-                setState(() {
-                  errors.remove(kInvalidEmailError);
-                });
-              }
-              return null;
-            },
-            validator: (value) {
-              if (value!.isEmpty && !errors.contains(kEmailNullError)) {
-                setState(() {
-                  errors.add(kEmailNullError);
-                });
-              } else if (!emailValidatorRegExp.hasMatch(value) &&
-                  !errors.contains(kInvalidEmailError)) {
-                setState(() {
-                  errors.add(kInvalidEmailError);
-                });
-              }
-              return null;
-            },
-            decoration: InputDecoration(
-              labelText: "Email",
-              hintText: "Enter your email",
-              // If  you are using latest version of flutter then lable text and hint text shown like this
-              // if you r using flutter less then 1.20.* then maybe this is not working properly
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              suffixIcon: Icon(Icons.mail),
-            ),
-          ),
-          SizedBox(height: 10),
-          FormError(errors: errors),
-          SizedBox(height: 10),
-          DefaultButton(
+          child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(height: 10),
+            emailField,
+            SizedBox(height: 10),
+            SizedBox(height: 10),
+             DefaultButton(
             text: "Continue",
-            press: () {
+            press: ()  {
               if (_formKey.currentState!.validate()) {
-                // Do what you want to do
+                auth.sendPasswordResetEmail(email: emailController.text);
+                Fluttertoast.showToast(msg: "Plase check your email for new password");
+                 Navigator.of(context).pop(); 
               }
             },
           ),
