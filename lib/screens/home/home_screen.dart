@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gamestation/constants.dart';
+import 'package:gamestation/models/product_model.dart';
 import 'package:gamestation/screens/cart/cart_screen.dart';
 import 'package:gamestation/screens/cart/components/body.dart';
 import 'package:gamestation/screens/profile/profile_screen.dart';
@@ -87,12 +88,12 @@ class _HomeScreen extends State<HomeScreen> {
                 color: iconColor,
                 size: 30.0,
               ),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CartScreen(),
-                    ));
+              onPressed: () {               
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //       builder: (context) => CartScreen(),
+                //     ));
               },
             ),
           ],

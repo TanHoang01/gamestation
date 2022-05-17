@@ -21,13 +21,14 @@ class ProductCard extends StatelessWidget {
     return GestureDetector(
       onTap: press,
       child: Container(
-        width: 154,
+        width: 160,
         padding: const EdgeInsets.all(defaultPadding / 2),
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius)),
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               width: double.infinity,
@@ -36,28 +37,22 @@ class ProductCard extends StatelessWidget {
                 borderRadius: const BorderRadius.all(
                     Radius.circular(defaultBorderRadius)),
               ),
-              child: Image.asset(
+              child: Image.network(
                 image,
-                height: 132,
+                height: 120,
               ),
             ),
-            const SizedBox(height: defaultPadding / 2),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    title,
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                ),
-              ],
+            // const SizedBox(height: defaultPadding / 2),
+            Expanded(
+              child: Text(
+              title,
+              style: const TextStyle(color: Colors.black),
+              ),
             ),
-            Row(children: [
-              Text(
-                  "\$" + price.toString(),
-                  style: const TextStyle(color: primaryColor),
-                ),
-              ],
+            Expanded(child:  Text(
+                "\$" + price.toString(),
+                style: const TextStyle(color: primaryColor),
+              ) 
             )
           ],
         ),

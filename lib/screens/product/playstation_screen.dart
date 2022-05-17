@@ -4,7 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:gamestation/screens/details/details_screen.dart';
 import 'package:gamestation/screens/cart/cart_screen.dart';
-import 'package:gamestation/models/product.dart';
+import 'package:gamestation/models/products.dart';
+import 'package:gamestation/models/product_model.dart';
 import 'package:gamestation/screens/home/home_screen.dart';
 
 import 'components/product_card.dart';
@@ -38,36 +39,64 @@ class _PlayStation extends State<PlayStation> {
                        color: iconColor,
                        size: 30.0,),
             onPressed: () {
-              Navigator.push(
-                        context,
-                       MaterialPageRoute(
-                          builder: (context) =>
-                              CartScreen(),
-              ));
+              // Navigator.push(
+              //           context,
+              //          MaterialPageRoute(
+              //             builder: (context) =>
+              //                 CartScreen(),
+              // ));
             },
           ),
         ],
       ),
-      body: Container( 
+      body: Column(
+        children: [
+          FutureBuilder<List<Product>>(
+              future: Products.getProductsPS(),
+              builder: (context, snapshot) {
+                final List<Product>? examQuestions = snapshot.data;
+
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return Center(child: CircularProgressIndicator());
+                  default:
+                    if (snapshot.hasError)
+                      return Center(child: Text(snapshot.error.toString()));
+                    else if(examQuestions != null)
+                      return buildproduct(examQuestions);
+                    else return Text("null");
+                }
+              },
+            ),         
+        ],
+      )
+    );
+  }
+  Widget buildproduct(List<Product> list) {
+    return SizedBox(
+    height: 180,
+    width: double.infinity,
+    child: Container( 
         decoration: BoxDecoration(color: barColor),
         child: GridView.count(
-      crossAxisCount: 2, children: 
+        crossAxisCount: 2,
+        children: 
         List.generate(
-          demo_product.length,
+          list.length,
             (index) => Padding(
               padding: const EdgeInsets.all( defaultPadding/2),
               child: ProductCard(
-                title: demo_product[index].title,
-                image: demo_product[index].images[0],
-                price: demo_product[index].price,
+                title: list[index].name,
+                image: list[index].image[0],
+                price: list[index].price,
                 bgColor: bgColor,
                 press: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                          DetailsScreen(product: demo_product[index]),
-                    ));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DetailsScreen(product: list[index]),
+                        ));
                   },
                 ),
               ),

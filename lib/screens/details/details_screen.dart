@@ -3,7 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gamestation/constants.dart';
-import 'package:gamestation/models/product.dart';
+import 'package:gamestation/models/products.dart';
 import 'components/color_dot.dart';
 
 class DetailsScreen extends StatelessWidget {
@@ -16,8 +16,8 @@ class DetailsScreen extends StatelessWidget {
     Widget buildImage(String image, int index) => Container(
       margin: EdgeInsets.symmetric(horizontal: 18),
       color: Colors.grey,
-      child: Image.asset(
-        product.images[index],
+      child: Image.network(
+        product.image[index],
         fit: BoxFit.cover,
       ),
     );
@@ -36,9 +36,9 @@ class DetailsScreen extends StatelessWidget {
         children: [
           CarouselSlider.builder(
             options: CarouselOptions(height: MediaQuery.of(context).size.height * 0.4,),
-            itemCount: product.images.length,
+            itemCount: product.image.length,
             itemBuilder: (context, index, realIndex){
-              final image = product.images[index];
+              final image = product.image[index];
               return buildImage(image, index);
             }
           ),
@@ -61,7 +61,7 @@ class DetailsScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          product.title,
+                          product.name,
                           style: Theme.of(context).textTheme.headline6,
                         ),
                       ),
@@ -74,27 +74,18 @@ class DetailsScreen extends StatelessWidget {
                        ),
                     ],
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(vertical: defaultPadding),
                     child: Text(
-                      "A Henley shirt is a collarless pullover shirt, by a round neckline and a placket about 3 to 5 inches (8 to 13 cm) long and usually having 2–5 buttons.",
+                      product.description,
                     ),
-                  ),
-                  Text(
-                    "Colors",
-                    style: Theme.of(context).textTheme.subtitle2,
                   ),
                   const SizedBox(height: defaultPadding / 2),
                   Row(
                     children: [
-                      ColorDot(
-                        color: product.colors[0],
-                      ),
-                      ColorDot(
-                        color: product.colors[1],
-                      ),
-                      ColorDot(
-                        color: product.colors[2],
+                      Text(
+                        "Amount",
+                        style: Theme.of(context).textTheme.subtitle2,
                       ),
                       Spacer(),
                       RawMaterialButton(
