@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gamestation/constants.dart';
 import 'package:gamestation/firebase_options.dart';
-import 'package:gamestation/screens/admin_home/home_screen.dart';
 import 'package:gamestation/screens/sign_in/sign_in_screen.dart';
 
 Future<void> main() async {
@@ -33,6 +32,6 @@ class MyApp extends StatelessWidget {
             bodyText2: TextStyle(color: Colors.black54),
           ),
         ),
-        home: HomeScreen());
+        home: SignInScreen());
   }
 }

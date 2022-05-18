@@ -7,6 +7,7 @@ import 'package:gamestation/components/default_buttom.dart';
 
 import 'package:gamestation/screens/forgot_password/forgot_password_screen.dart';
 import 'package:gamestation/screens/home/home_screen.dart';
+import 'package:gamestation/screens/admin_home/home_screen.dart';
 import 'package:gamestation/screens/sign_up/components/sign_up_form.dart';
 
 import '../../../constants.dart';
@@ -140,9 +141,15 @@ class _SignFormState extends State<SignForm> {
         await _auth
             .signInWithEmailAndPassword(email: email, password: password)
             .then((uid) => {
+               if(uid.user!.uid == "0wljuA9yIdRyMXQMKXTAmIbDWsJ2"){
+                Fluttertoast.showToast(msg: "Welcome Ad"),
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => HomeScreenad())),
+              }else{
                   Fluttertoast.showToast(msg: "Login Successful"),
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => HomeScreen())),
+              }
                 });
       } on FirebaseAuthException catch (error) {
         switch (error.code) {

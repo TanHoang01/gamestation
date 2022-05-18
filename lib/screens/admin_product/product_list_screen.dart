@@ -22,7 +22,7 @@ class _ProductScreen extends State<ProductScreen> {
                             context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  HomeScreen(),
+                                  HomeScreenad(),
                   ));
               },
               icon: Icon(Icons.arrow_back,color: Colors.black,),
@@ -38,7 +38,7 @@ class _ProductScreen extends State<ProductScreen> {
                                 context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      HomeScreen(),
+                                      HomeScreenad(),
                       ));
                     },
                   ),
@@ -51,7 +51,7 @@ class _ProductScreen extends State<ProductScreen> {
                             context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  HomeScreen(),
+                                  HomeScreenad(),
                   ));
                 },
               ),

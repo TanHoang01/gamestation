@@ -6,12 +6,12 @@ import 'package:gamestation/screens/admin_customer/customer_list_screen.dart';
 import 'package:gamestation/screens/admin_product/product_list_screen.dart';
 import 'components/alert_dialog.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreenad extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomeScreenadState createState() => _HomeScreenadState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenadState extends State<HomeScreenad> {
   bool tappedYes = false;
   @override
   Widget build(BuildContext context) {
@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              HomeScreen(),
+                              HomeScreenad(),
                           )),
                         child: Card(
                           color: Color(0xFFC8E6C9),
@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              HomeScreen(),
+                              HomeScreenad(),
                           )),
                         child: Card(
                           color: Color(0xFFF8BBD0),

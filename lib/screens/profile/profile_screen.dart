@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:gamestation/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gamestation/models/user.dart';
+import 'package:gamestation/models/users.dart';
+import 'package:gamestation/models/users_model.dart';
 import 'package:gamestation/screens/home/home_screen.dart';
 import 'package:gamestation/screens/profile/change_password_screen.dart';
 import 'package:gamestation/screens/sign_in/sign_in_screen.dart';
@@ -24,40 +25,6 @@ class _Profile extends State<Profile> {
     addressHolder.clear();
   }
   bool tappedYes = false;
-  userModel userInfor = userModel(
-      id: '',
-      email: '',
-      fullName: '',
-      userName: '',
-      phoneNumber: '',
-      background: '',
-      avatar: '',
-      favoriteList: [],
-      saveList: [],
-      state: '',
-      follow: [],
-      token: '');
-  Future getUser(String uid) async {
-    FirebaseFirestore.instance
-        .collection('uses')
-        .where('userId', isEqualTo: uid)
-        .snapshots()
-        .listen((value) {
-      setState(() {
-        userInfor = userModel.fromDocument(value.docs.first.data());
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    final uid = user?.uid;
-    getUser(uid.toString());
-    print(userInfor.id);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,10 +59,23 @@ class _Profile extends State<Profile> {
               )
             ],
           )),
-          buildTextFieldName("Full Name", "Tan Hoang"),
-          buildTextField("Email", "Tan@gmail.com"),
-          buildTextField("Phone", "0123456789"),
-          buildTextFieldAddress("Address", "Ho Chi Minh"),
+         FutureBuilder<User>(
+              future: Users.getUserInst(auth.FirebaseAuth.instance.currentUser!.uid),
+              builder: (context, snapshot) {
+                final User? examQuestions = snapshot.data;
+
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return Center(child: CircularProgressIndicator());
+                  default:
+                    if (snapshot.hasError)
+                      return Center(child: Text(snapshot.error.toString()));
+                    else if(examQuestions != null)
+                      return builduser(examQuestions);
+                    else return Text("null");
+                }
+              },
+            ),            
           SizedBox(height: 20),
           Column(
             children: [
@@ -266,6 +246,16 @@ class _Profile extends State<Profile> {
           hintText: placeholder,
           hintStyle: TextStyle(
               fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black)),
+    );
+  }
+  Widget builduser(User user) {
+    return Column(
+      children: [
+        buildTextFieldName("Full Name", user.fullname),
+        buildTextField("Email", user.email),
+        buildTextField("Phone", user.phonenumber),
+        buildTextFieldAddress("Address", user.address),
+      ]
     );
   }
 }
