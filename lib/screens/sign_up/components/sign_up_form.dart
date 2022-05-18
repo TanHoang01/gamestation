@@ -286,6 +286,7 @@ class _SignUpFormState extends State<SignUpForm> {
     userModel.fullname = fullNameEditingController.text;
     userModel.phonenumber = phoneNumberEditingController.text;
     userModel.address = addressEditingController.text;
+    userModel.favoritelist = [];
 
     await firebaseFirestore
         .collection("users")

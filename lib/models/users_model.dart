@@ -7,4 +7,20 @@ class Users {
   return User.fromJson(snapshot.data()!);
 }
 
+ static Future Inst(String uid, String productid) async {
+  final snapshot = await FirebaseFirestore.instance.collection("users").doc(uid).get();
+  final user = User.fromJson(snapshot.data()!);
+ 
+if(user.favoritelist.contains(productid)) {
+  user.favoritelist.remove(productid);
+   await FirebaseFirestore.instance.collection("users").doc(uid).set(user.toJson());
+}
+else{
+   user.favoritelist.add(productid);
+    await FirebaseFirestore.instance.collection("users").doc(uid).set(user.toJson());
+}
+
+}
+
+
 }

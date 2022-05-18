@@ -4,8 +4,9 @@ class UserModel {
   String? phonenumber;
   String? fullname;
   String? address;
+  List<String>? favoritelist;
 
-  UserModel({this.uid, this.email, this.phonenumber, this.fullname, this.address});
+  UserModel({this.uid, this.email, this.phonenumber, this.fullname, this.address, this.favoritelist});
 
   // receiving data from server
   factory UserModel.fromMap(map) {
@@ -15,6 +16,7 @@ class UserModel {
       phonenumber: map['phonenumber'],
       fullname: map['fullname'],
       address: map['address'],
+      favoritelist: map['favoritelist']
     );
   }
 
@@ -26,6 +28,7 @@ class UserModel {
       'phonenumber': phonenumber,
       'fullname': fullname,
       'address': address,
+      'favoritelist': favoritelist,
     };
   }
 }

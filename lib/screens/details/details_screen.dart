@@ -1,9 +1,11 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gamestation/constants.dart';
 import 'package:gamestation/models/products.dart';
+import '../../models/users_model.dart';
 import 'components/color_dot.dart';
 
 class DetailsScreen extends StatelessWidget {
@@ -27,7 +29,9 @@ class DetailsScreen extends StatelessWidget {
         leading: const BackButton(color: Colors.black),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Users.Inst(FirebaseAuth.instance.currentUser!.uid,product.id);
+            },
             icon: Icon(Icons.favorite, color: iconColor),
           )
         ],

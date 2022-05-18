@@ -12,11 +12,26 @@ class Favorite extends StatefulWidget {
 class _Favorite extends State<Favorite> {
   @override
   Widget build(BuildContext context) {
-    return Container( 
-        decoration: BoxDecoration(color: barColor),
-        child: GridView.count(
-      crossAxisCount: 2, 
-        )
-      );
+    return Column(
+      // children: [  
+      //   FutureBuilder<List<Product>>(
+      //         future: Products.getProductsHot(),
+      //         builder: (context, snapshot) {
+      //           final List<Product>? examQuestions = snapshot.data;
+
+      //           switch (snapshot.connectionState) {
+      //             case ConnectionState.waiting:
+      //               return Center(child: CircularProgressIndicator());
+      //             default:
+      //               if (snapshot.hasError)
+      //                 return Center(child: Text(snapshot.error.toString()));
+      //               else if(examQuestions != null)
+      //                 return buildproduct(examQuestions);
+      //               else return Text("null");
+      //           }
+      //         },
+      //       ),    
+      // ]
+    );
   }
 }
