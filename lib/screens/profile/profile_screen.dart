@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:gamestation/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -100,7 +101,20 @@ class _Profile extends State<Profile> {
                               borderRadius: BorderRadius.all(Radius.circular(30))),
                           child: Text('Save'),
                           onPressed: () => {
-                            
+                            if(nameHolder.text != ""){
+                            FirebaseFirestore.instance.collection("users")
+                            .doc(auth.FirebaseAuth.instance.currentUser!.uid)
+                            .update({"fullname": nameHolder.text}).then(                     
+                            (value) => print("DocumentSnapshot successfully updated!"),
+                            onError: (e) => print("Error updating document $e")),
+                            },
+                            if(addressHolder.text != ""){
+                            FirebaseFirestore.instance.collection("users")
+                            .doc(auth.FirebaseAuth.instance.currentUser!.uid)
+                            .update({"address": addressHolder.text}).then(                     
+                            (value) => print("DocumentSnapshot successfully updated!"),
+                            onError: (e) => print("Error updating document $e")),
+                            }
                           },
                         ),
                       ),
