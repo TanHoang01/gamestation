@@ -31,7 +31,7 @@ class _ChangePassword extends State<ChangePassword> {
           icon: Icon(Icons.arrow_back,color: Colors.black,),
         ),
       ),
-      body: ChangePasswordForm(),
+      body: Body(),
     );
   }
 }

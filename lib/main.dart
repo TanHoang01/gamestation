@@ -4,11 +4,10 @@ import 'package:gamestation/constants.dart';
 import 'package:gamestation/firebase_options.dart';
 import 'package:gamestation/screens/sign_in/sign_in_screen.dart';
 
-Future<void> main() async {
-  runApp(const MyApp());
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
