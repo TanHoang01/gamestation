@@ -1,7 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:gamestation/models/users.dart';
+import 'package:gamestation/models/users_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gamestation/constants.dart';
+import 'package:gamestation/controllers/firebase.dart';
 import 'package:gamestation/screens/admin_customer/customer_list_screen.dart';
 import 'package:gamestation/screens/admin_product/product_list_screen.dart';
 import 'components/alert_dialog.dart';
@@ -12,6 +18,7 @@ class HomeScreenad extends StatefulWidget {
 }
 
 class _HomeScreenadState extends State<HomeScreenad> {
+
   bool tappedYes = false;
   @override
   Widget build(BuildContext context) {
@@ -23,30 +30,22 @@ class _HomeScreenadState extends State<HomeScreenad> {
           SafeArea(
             child: Column(
               children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  height: 62,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      CircleAvatar(
-                        radius: 62,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Peter Parker',
-                            style: TextStyle(color: Colors.black,fontSize: 20.0,fontWeight: FontWeight.bold,letterSpacing: 2),
-                            
-                          ),
-                          Text('Admin',style: TextStyle(color: Colors.black,fontSize: 16.0),)
-                        ],
-                      )
-                    ],
-                  ),
-                ),            
+                 FutureBuilder<User>(
+                    future: Users.getUserInst(auth.FirebaseAuth.instance.currentUser!.uid),
+                    builder: (context, snapshot) {
+                    final User? examQuestions = snapshot.data;
+                    switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                    return Center(child: CircularProgressIndicator());
+                    default:
+                    if (snapshot.hasError)
+                      return Center(child: Text(snapshot.error.toString()));
+                    else if(examQuestions != null)
+                      return builduser(examQuestions);
+                    else return Text("null");
+                }
+              },
+            ),                                      
                 Expanded(
                   child: GridView.count(
                     mainAxisSpacing: 10,
@@ -156,5 +155,32 @@ class _HomeScreenadState extends State<HomeScreenad> {
         ],
       ),
     );
+  }
+  Widget builduser(User user) {
+    return Container(
+                  margin: const EdgeInsets.all(10.0),
+                  height: 62,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      CircleAvatar(
+                        radius: 40,
+                        backgroundImage: AssetImage("assets/images/logo.png"),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            user.fullname,
+                            style: TextStyle(color: Colors.black,fontSize: 20.0,fontWeight: FontWeight.bold,letterSpacing: 2),
+                            
+                          ),
+                          Text('Admin',style: TextStyle(color: Colors.black,fontSize: 16.0),)
+                        ],
+                      )
+                    ],
+                  ),
+                );                                
   }
 }

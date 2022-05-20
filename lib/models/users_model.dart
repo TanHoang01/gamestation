@@ -14,12 +14,19 @@ class Users {
 if(user.favoritelist.contains(productid)) {
   user.favoritelist.remove(productid);
    await FirebaseFirestore.instance.collection("users").doc(uid).set(user.toJson());
-}
+  }
 else{
    user.favoritelist.add(productid);
     await FirebaseFirestore.instance.collection("users").doc(uid).set(user.toJson());
+  } 
 }
 
+  static Future<List<User>> getUser() async {
+  final snapshot = await FirebaseFirestore.instance.collection("users").get();
+   return snapshot.docs.map((e) {
+      return User.fromJson(e.data());
+    }
+  ).toList();
 }
 
 
