@@ -64,6 +64,15 @@ class Products {
     }
   ).toList();
 }
+
+ static Future<List<Product>> getProducts() async {
+  final snapshot = await FirebaseFirestore.instance.collection("products").get();
+  return snapshot.docs.map((e) {
+      print(e.data());
+      return Product.fromJson(e.data());
+    }
+  ).toList();
+}
 //  static Future setProducts() async {
 //   final docs = await FirebaseFirestore.instance.collection("products").doc();
   

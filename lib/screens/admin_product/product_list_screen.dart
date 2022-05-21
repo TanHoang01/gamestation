@@ -1,9 +1,10 @@
-import 'package:gamestation/screens/admin_product/page/page.dart';
-import 'package:gamestation/screens/admin_product/widget/tabbar_widget.dart';
+import 'package:gamestation/models/products.dart';
+import 'package:gamestation/models/product_model.dart';
 import 'package:gamestation/screens/admin_home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gamestation/constants.dart';
+import 'components/body.dart';
 
 class ProductScreen extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreen extends State<ProductScreen> {
+
   @override
   Widget build(BuildContext context) {
         return Scaffold(   
@@ -57,7 +59,41 @@ class _ProductScreen extends State<ProductScreen> {
               ),
             ],
           ),    
-        body: EditablePage(),
-    );
+        body: ListView(
+            children: [
+             FutureBuilder<List<Product>>(
+              future: Products.getProducts(),
+              builder: (context, snapshot) {
+                final List<Product>? examQuestions = snapshot.data;
+
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return Center(child: CircularProgressIndicator());
+                  default:
+                    if (snapshot.hasError)
+                      return Center(child: Text(snapshot.error.toString()));
+                    else if(examQuestions != null)
+                      return buildproduct(examQuestions);
+                    else return Text("null");
+                }
+              },
+            ),        
+          ],
+        )
+      );
   }
+   Widget buildproduct(List<Product> list) {
+    return SizedBox(
+    height: 630,
+    width: double.infinity,
+      child: Container(
+        padding: const EdgeInsets.only(right: defaultPadding/2, left: defaultPadding/2),
+        child: SingleChildScrollView(
+                  child: Body(
+                    list: list,
+                  ),
+              ),
+      )     
+    );
+  }  
 }

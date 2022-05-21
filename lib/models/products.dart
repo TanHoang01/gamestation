@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'products.g.dart';
 @JsonSerializable()
 class Product {
-  final String id;
+  final String id,productcode;
   final String name,type, description;
   final double price;
   final int amount;
@@ -13,6 +13,7 @@ class Product {
 
   Product(
     this.id,
+    this.productcode,
     this.name,
     this.type,
     this.image,
