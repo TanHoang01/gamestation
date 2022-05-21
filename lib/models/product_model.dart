@@ -73,6 +73,17 @@ class Products {
     }
   ).toList();
 }
+
+static Future<bool> checkProductbyid(String id) async {
+  final snapshot = await FirebaseFirestore.instance.collection("products").where("id",isEqualTo: id).get();  
+   if( snapshot.docs.map((e) {
+      print(e.data());
+      return Product.fromJson(e.data());
+    }
+  ).toList().length == 0)
+  return false;
+  else return true;
+}
 //  static Future setProducts() async {
 //   final docs = await FirebaseFirestore.instance.collection("products").doc();
   

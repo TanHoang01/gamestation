@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gamestation/constants.dart';
 import 'components/body.dart';
+import 'add_product_screen.dart';
 
 class ProductScreen extends StatefulWidget {
   @override
@@ -53,7 +54,7 @@ class _ProductScreen extends State<ProductScreen> {
                             context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  HomeScreenad(),
+                                  AddProductScreen(),
                   ));
                 },
               ),

@@ -62,7 +62,7 @@ class Body extends StatelessWidget {
                 DataRow(
                   cells: [
                     DataCell (
-                      Text(list[index].productcode),
+                      Text(list[index].id),
                     ),
                     DataCell (
                       Container(
