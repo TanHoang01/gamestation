@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:gamestation/constants.dart';
 import 'components/body.dart';
 import 'add_product_screen.dart';
+import 'remove_product_screen.dart';
+import 'update_product_screen.dart';
 
 class ProductScreen extends StatefulWidget {
   @override
@@ -33,6 +35,19 @@ class _ProductScreen extends State<ProductScreen> {
             title: Center(child: Text('Product List', textAlign: TextAlign.center, style: TextStyle(color: primaryColor),)),
             actions: [
                 IconButton(
+                  icon: Icon(Icons.edit,
+                            color: iconColor,
+                            size: 25.0,),
+                    onPressed: () {
+                      Navigator.push(
+                                context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      UpdateProductScreen(),
+                      ));
+                    },
+                  ),
+                IconButton(
                   icon: Icon(Icons.remove,
                             color: iconColor,
                             size: 25.0,),
@@ -41,7 +56,7 @@ class _ProductScreen extends State<ProductScreen> {
                                 context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      HomeScreenad(),
+                                      RemoveProductScreen(),
                       ));
                     },
                   ),

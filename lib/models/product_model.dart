@@ -1,4 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'users_model.dart';
+import 'users.dart';
 import 'products.dart';
 
 class Products {
@@ -83,6 +86,24 @@ static Future<bool> checkProductbyid(String id) async {
   ).toList().length == 0)
   return false;
   else return true;
+}
+
+ static Future<List<String>> getProductsbyid(String id) async {
+  final snapshot = await FirebaseFirestore.instance.collection("products").doc(id).get();
+  return Product.fromJson(snapshot.data()!).image;
+}
+
+static Future<List<Product>> getFavoriteProducts() async {
+  User user = await Users.getUserInst(auth.FirebaseAuth.instance.currentUser!.uid);
+  List<String> favorite = user.favoritelist;
+  final snapshot = await FirebaseFirestore.instance.collection("products").get();
+  List<Product> products = snapshot.docs.map((e) {
+      print(e.data());
+      return Product.fromJson(e.data());
+    }
+  ).toList();
+  List<Product> favoriteproducts = products.where((element) => favorite.contains(element.id)).toList();
+  return favoriteproducts; 
 }
 //  static Future setProducts() async {
 //   final docs = await FirebaseFirestore.instance.collection("products").doc();

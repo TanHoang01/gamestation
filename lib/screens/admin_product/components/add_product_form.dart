@@ -281,6 +281,8 @@ class _AddProductFormState extends State<AddProductForm> {
               image2EditingController.clear();
               image3EditingController.clear();
               image4EditingController.clear();
+            } else {
+              Fluttertoast.showToast(msg: "Product has already existed ");
             }
           },
           child: Text(
