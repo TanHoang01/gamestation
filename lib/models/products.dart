@@ -7,7 +7,7 @@ class Product {
   final String id;
   final String name,type, description;
   final double price;
-  final int amount;
+  int amount;
   final List<String> image;
   final bool isHot, isNew;
 

@@ -4,7 +4,10 @@ import 'package:gamestation/constants.dart';
 import 'package:gamestation/models/product_model.dart';
 import 'package:gamestation/screens/cart/cart_screen.dart';
 import 'package:gamestation/screens/cart/components/body.dart';
+import 'package:gamestation/screens/chat/chat_client.dart';
+import 'package:gamestation/screens/chat/chat_screen_detail.dart';
 import 'package:gamestation/screens/profile/profile_screen.dart';
+import 'package:gamestation/screens/chat/chat_screen.dart';
 import 'package:gamestation/screens/favorite/favorite_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'components/categories.dart';
@@ -20,7 +23,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreen extends State<HomeScreen> {
   int _index = 0;
 
-  List<Widget> tabPages = [Home(), Favorite(), Profile()];
+  List<Widget> tabPages = [Home(), Favorite(), messageClientScreen(), Profile()];
   @override
   void initState() {
     FirebaseAuth auth = FirebaseAuth.instance;
@@ -40,10 +43,16 @@ class _HomeScreen extends State<HomeScreen> {
         unselectedItemColor: iconColor,
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home), label: "Home", backgroundColor: barColor),
+              icon: Icon(Icons.home), 
+              label: "Home", 
+              backgroundColor: barColor),
           BottomNavigationBarItem(
               icon: Icon(Icons.favorite),
               label: "Favorite",
+              backgroundColor: barColor),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.message),
+              label: "Chat",
               backgroundColor: barColor),
           BottomNavigationBarItem(
               icon: Icon(Icons.person),
@@ -89,11 +98,11 @@ class _HomeScreen extends State<HomeScreen> {
                 size: 30.0,
               ),
               onPressed: () {               
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => CartScreen(),
-                //     ));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CartScreen(),
+                    ));
               },
             ),
           ],

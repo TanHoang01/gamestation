@@ -7,11 +7,22 @@ import 'package:gamestation/constants.dart';
 import 'package:gamestation/models/products.dart';
 import '../../models/users_model.dart';
 import 'components/color_dot.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gamestation/models/carts_model.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 
-class DetailsScreen extends StatelessWidget {
-  const DetailsScreen({Key? key, required this.product}) : super(key: key);
+class DetailsScreen extends StatefulWidget {
+  DetailsScreen({Key? key, required this.product}) : super(key: key);
 
   final Product product;
+
+  @override
+  State<DetailsScreen> createState() => _DetailsScreenState();
+}
+
+class _DetailsScreenState extends State<DetailsScreen> {
+  int amount = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +30,7 @@ class DetailsScreen extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 18),
       color: Colors.grey,
       child: Image.network(
-        product.image[index],
+        widget.product.image[index],
         fit: BoxFit.cover,
       ),
     );
@@ -30,7 +41,7 @@ class DetailsScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Users.Inst(FirebaseAuth.instance.currentUser!.uid,product.id);
+              Users.Inst(FirebaseAuth.instance.currentUser!.uid,widget.product.id);
             },
             icon: Icon(Icons.favorite, color: iconColor),
           )
@@ -40,9 +51,9 @@ class DetailsScreen extends StatelessWidget {
         children: [
           CarouselSlider.builder(
             options: CarouselOptions(height: MediaQuery.of(context).size.height * 0.4,),
-            itemCount: product.image.length,
+            itemCount: widget.product.image.length,
             itemBuilder: (context, index, realIndex){
-              final image = product.image[index];
+              final image = widget.product.image[index];
               return buildImage(image, index);
             }
           ),
@@ -65,7 +76,7 @@ class DetailsScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          product.name,
+                          widget.product.name,
                           style: Theme.of(context).textTheme.headline6,
                         ),
                       ),
@@ -73,7 +84,7 @@ class DetailsScreen extends StatelessWidget {
                   ),
                   Row(children: [
                       Text(
-                        "\$" + product.price.toString(),
+                        "\$" + widget.product.price.toString(),
                         style: TextStyle(height: 1.1, fontSize: 22, color: primaryColor ),
                        ),
                     ],
@@ -81,7 +92,7 @@ class DetailsScreen extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: defaultPadding),
                     child: Text(
-                      product.description,
+                      widget.product.description,
                     ),
                   ),
                   const SizedBox(height: defaultPadding / 2),
@@ -94,7 +105,14 @@ class DetailsScreen extends StatelessWidget {
                       Spacer(),
                       RawMaterialButton(
                         constraints: BoxConstraints.tight(Size(40, 40)) ,
-                        onPressed: () {},
+                        onPressed: () {
+                          if(amount > 1){
+                            amount = amount - 1;
+                            setState(() {
+                            
+                          });
+                          }
+                        },
                         fillColor: Colors.white,
                         child: Icon(
                           Icons.remove,
@@ -108,7 +126,7 @@ class DetailsScreen extends StatelessWidget {
                         onPressed: null,
                         fillColor: Colors.white,
                         child: Text(
-                          "1",
+                          amount.toString(),
                           style: const TextStyle(fontSize: 20),
                         ),
                         padding: const EdgeInsets.all(defaultPadding / 4),
@@ -116,7 +134,12 @@ class DetailsScreen extends StatelessWidget {
                       ),
                       RawMaterialButton(
                         constraints: BoxConstraints.tight(Size(40, 40)) ,
-                        onPressed: () {},
+                        onPressed: () {
+                          amount = amount + 1;
+                          setState(() {
+                            
+                          });
+                        },
                         fillColor: Colors.white,
                         child: Icon(
                           Icons.add,
@@ -133,7 +156,9 @@ class DetailsScreen extends StatelessWidget {
                       width: 200,
                       height: 40,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          add();
+                        },
                         style: ElevatedButton.styleFrom(
                             primary: primaryColor,
                             shape: const StadiumBorder()),
@@ -148,5 +173,34 @@ class DetailsScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+   void add() async {
+      try {
+        postDetailsToFirestore();
+      } on FirebaseException catch (error){
+  
+    }
+  }
+
+  postDetailsToFirestore() async {
+    // calling our firestore
+    // calling our user model
+    // sedning these values
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    CartModel cartModel = CartModel();
+
+    // writing all the values
+    cartModel.productid = widget.product.id;
+    cartModel.userid = auth.FirebaseAuth.instance.currentUser!.uid;
+    cartModel.amount = amount;
+
+    await firebaseFirestore
+        .collection("cart")
+        .doc()
+        .set(cartModel.toMap());
+    Fluttertoast.showToast(msg: "Add to cart successfully :) ");
   }
 }

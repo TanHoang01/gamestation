@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gamestation/components/custom_surfix_icon.dart';
 import 'package:gamestation/components/default_buttom.dart';
 import 'package:gamestation/screens/home/home_screen.dart';
+import 'package:intl/intl.dart';
 import '../../../constants.dart';
 import '../../../controllers/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -291,9 +292,33 @@ class _SignUpFormState extends State<SignUpForm> {
     await firebaseFirestore
         .collection("users")
         .doc(user.uid)
-        .set(userModel.toMap());
+        .set(userModel.toMap()).then((value) {
+          FirebaseFirestore.instance.collection("messages").add({
+            'userId1': user.uid,
+            'userId2':'0wljuA9yIdRyMXQMKXTAmIbDWsJ2',
+            'name1': fullNameEditingController.text,
+            'name2': "Admin",
+            'contentList': FieldValue.arrayUnion([""]),
+            'lastTimeSend': "${DateFormat('hh:mm a').format(DateTime.now())}",
+            'lastMessage': '',
+          }).then((value) {
+            setState(() {
+              FirebaseFirestore.instance
+                  .collection("messages")
+                  .doc(value.id)
+                  .update({
+                'messageId': value.id,
+              });
+              firebaseFirestore
+        .collection("users")
+        .doc(user.uid).update({'messageId': value.id,});
+            });
+          });
+
+        });
     Fluttertoast.showToast(msg: "Account created successfully :) ");
 
+   
     Navigator.pushAndRemoveUntil(
         (context),
         MaterialPageRoute(builder: (context) => HomeScreen()),

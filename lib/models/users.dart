@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'users.g.dart';
 @JsonSerializable()
 class User {
-  final String uid,fullname,email,address,phonenumber;
+  final String uid,fullname,email,address,phonenumber,messageId;
   final List<String> favoritelist;
 
   User(
@@ -13,7 +13,8 @@ class User {
     this.email,
     this.address,
     this.phonenumber,
-    this.favoritelist
+    this.favoritelist,
+    this.messageId,
   );
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
