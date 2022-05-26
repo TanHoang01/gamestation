@@ -9,6 +9,7 @@ import 'package:gamestation/models/users_model.dart';
 import 'package:gamestation/screens/home/home_screen.dart';
 import 'package:gamestation/screens/profile/change_password_screen.dart';
 import 'package:gamestation/screens/sign_in/sign_in_screen.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'components/alert_dialog.dart';
 
@@ -20,6 +21,7 @@ class Profile extends StatefulWidget {
 class _Profile extends State<Profile> {
   final nameHolder = TextEditingController();
   final addressHolder = TextEditingController();
+  final phonenumberHolder = TextEditingController();
  
   clearTextInput(){
     nameHolder.clear();
@@ -50,13 +52,13 @@ class _Profile extends State<Profile> {
                       BoxShadow(
                           spreadRadius: 2,
                           blurRadius: 10,
-                          color: Colors.black.withOpacity(0.1),
+                          color: primaryColor.withOpacity(0.15),
                           offset: Offset(0, 10))
                     ],
                     shape: BoxShape.circle,
                     image: DecorationImage(
                         fit: BoxFit.contain,
-                        image: ExactAssetImage('assets/images/ps4.png'))),
+                        image: ExactAssetImage('assets/images/logo.png'))),
               )
             ],
           )),
@@ -107,6 +109,7 @@ class _Profile extends State<Profile> {
                             .update({"fullname": nameHolder.text}).then(                     
                             (value) => print("DocumentSnapshot successfully updated!"),
                             onError: (e) => print("Error updating document $e")),
+                            Fluttertoast.showToast(msg: "Full name has changed "),
                             },
                             if(addressHolder.text != ""){
                             FirebaseFirestore.instance.collection("users")
@@ -114,6 +117,15 @@ class _Profile extends State<Profile> {
                             .update({"address": addressHolder.text}).then(                     
                             (value) => print("DocumentSnapshot successfully updated!"),
                             onError: (e) => print("Error updating document $e")),
+                            Fluttertoast.showToast(msg: "Address has changed "),
+                            },
+                            if(phonenumberHolder.text != ""){
+                            FirebaseFirestore.instance.collection("users")
+                            .doc(auth.FirebaseAuth.instance.currentUser!.uid)
+                            .update({"phonenumber": phonenumberHolder.text}).then(                     
+                            (value) => print("DocumentSnapshot successfully updated!"),
+                            onError: (e) => print("Error updating document $e")),
+                            Fluttertoast.showToast(msg: "Phone Number has changed "),
                             }
                           },
                         ),
@@ -262,12 +274,26 @@ class _Profile extends State<Profile> {
               fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black)),
     );
   }
+
+   TextField buildTextFieldPhoneNumber(String labletext, String placeholder) {
+    return TextField(
+      controller: phonenumberHolder,
+      focusNode: new AlwaysFocusNode(),
+      decoration: InputDecoration(
+          suffixIcon: Icon(Icons.edit),
+          labelText: labletext,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          hintText: placeholder,
+          hintStyle: TextStyle(
+              fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black)),
+    );
+  }
   Widget builduser(User user) {
     return Column(
       children: [
         buildTextFieldName("Full Name", user.fullname),
         buildTextField("Email", user.email),
-        buildTextField("Phone", user.phonenumber),
+        buildTextFieldPhoneNumber("Phone", user.phonenumber),
         buildTextFieldAddress("Address", user.address),
       ]
     );

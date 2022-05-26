@@ -50,20 +50,6 @@ class Body extends StatelessWidget {
                   ),
                 SizedBox(height: 10),
                 SignForm(),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SocalCard(
-                      icon: "assets/icons/facebook.svg",
-                      press: () {},
-                    ),
-                    SocalCard(
-                      icon: "assets/icons/google.svg",
-                      press: () {},
-                    ),
-                  ],
-                ),
                 SizedBox(height: 20),
                 NoAccountText(),
               ],
