@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gamestation/models/products.dart';
 import 'package:gamestation/models/cart_model.dart';
-
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'cart_card.dart';
 
 class Body extends StatefulWidget {
@@ -44,7 +45,7 @@ class _BodyState extends State<Body> {
             direction: DismissDirection.endToStart,
             onDismissed: (direction) {
               setState(() {
-                
+                remove(list[index].id);
               });
             },
             background: Container(
@@ -70,5 +71,20 @@ class _BodyState extends State<Body> {
         ),
       )
     );
+  }
+   void remove(String listid) async { 
+      try {
+        postDetailsToFirestore(listid);
+      } on FirebaseException catch (error){}
+    }
+
+  postDetailsToFirestore(String listid) async {
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    await firebaseFirestore
+        .collection("cart")
+        .doc(auth.FirebaseAuth.instance.currentUser!.uid + listid)
+        .delete();
   }
 }

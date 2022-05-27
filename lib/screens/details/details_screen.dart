@@ -199,7 +199,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
     await firebaseFirestore
         .collection("cart")
-        .doc()
+        .doc(auth.FirebaseAuth.instance.currentUser!.uid + widget.product.id)
         .set(cartModel.toMap());
     Fluttertoast.showToast(msg: "Add to cart successfully :) ");
   }
