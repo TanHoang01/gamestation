@@ -39,12 +39,12 @@ class _Xbox extends State<Xbox> {
                        color: iconColor,
                        size: 30.0,),
             onPressed: () {
-              // Navigator.push(
-              //           context,
-              //          MaterialPageRoute(
-              //             builder: (context) =>
-              //                 CartScreen(),
-              // ));
+              Navigator.push(
+                        context,
+                       MaterialPageRoute(
+                          builder: (context) =>
+                              CartScreen(),
+              ));
             },
           ),
         ],

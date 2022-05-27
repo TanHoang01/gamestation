@@ -10,12 +10,17 @@ import 'package:gamestation/screens/home/home_screen.dart';
 
 import 'components/product_card.dart';
 
-class PlayStation extends StatefulWidget {
+class Search_Screen extends StatefulWidget {
+  Search_Screen({Key? key, required this.search_name}) : super(key: key);
+
+  final String search_name;
+
   @override
-  _PlayStation createState() => _PlayStation();
+  _Search createState() => _Search();
 }
 
-class _PlayStation extends State<PlayStation> {
+class _Search extends State<Search_Screen> {
+  List<Product> productSearchList=[];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +37,7 @@ class _PlayStation extends State<PlayStation> {
           },
           icon: Icon(Icons.arrow_back,color: Colors.black,),
         ),
-        title: Center(child: Text('Playstation', textAlign: TextAlign.center, style: TextStyle(color: primaryColor),)),
+        title: Center(child: Text(widget.search_name, textAlign: TextAlign.center, style: TextStyle(color: primaryColor),)),
         actions: [
           IconButton(
             icon: Icon(Icons.shopping_cart,
@@ -52,10 +57,9 @@ class _PlayStation extends State<PlayStation> {
       body: Column(
         children: [
           FutureBuilder<List<Product>>(
-              future: Products.getProductsPS(),
+              future: Products.getProducts(),
               builder: (context, snapshot) {
                 final List<Product>? examQuestions = snapshot.data;
-
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
                     return Center(child: CircularProgressIndicator());
@@ -63,7 +67,23 @@ class _PlayStation extends State<PlayStation> {
                     if (snapshot.hasError)
                       return Center(child: Text(snapshot.error.toString()));
                     else if(examQuestions != null)
-                      return buildproduct(examQuestions);
+                    {
+                      productSearchList.clear();
+                      for(int i=0; i<examQuestions.length;i++)
+                      {
+                      if(widget.search_name.toLowerCase() == examQuestions[i].name.toLowerCase())
+                      {
+                      productSearchList.add(examQuestions[i]);
+                      }
+                      else
+                        if(examQuestions[i].name.toLowerCase().contains(widget.search_name.toLowerCase()))
+                        {
+                        productSearchList.add(examQuestions[i]);
+                        } 
+                      }
+                    return buildproduct(productSearchList);
+                    }
+                      
                     else return Text("null");
                 }
               },

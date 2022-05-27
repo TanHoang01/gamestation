@@ -9,6 +9,7 @@ import 'package:gamestation/screens/chat/chat_screen_detail.dart';
 import 'package:gamestation/screens/profile/profile_screen.dart';
 import 'package:gamestation/screens/chat/chat_screen.dart';
 import 'package:gamestation/screens/favorite/favorite_screen.dart';
+import 'package:gamestation/screens/search/search_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'components/categories.dart';
 import 'components/new_arrival_products.dart';
@@ -22,7 +23,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreen extends State<HomeScreen> {
   int _index = 0;
-
+  final searchController = new TextEditingController();
   List<Widget> tabPages = [Home(), Favorite(), messageClientScreen(), Profile()];
   @override
   void initState() {
@@ -77,12 +78,22 @@ class _HomeScreen extends State<HomeScreen> {
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: Center(
               child: TextField(
+                controller: searchController,
                 decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search, color: iconColor),
+                    prefixIcon: IconButton(
+                      icon: Icon(Icons.search, color: iconColor),
+                      onPressed: () { Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              Search_Screen(search_name: searchController.text),
+                        ));
+                      }
+                    ),
                     suffixIcon: IconButton(
                       icon: Icon(Icons.clear, color: iconColor),
                       onPressed: () {
-                        /* Clear the search field */
+                        searchController.clear();
                       },
                     ),
                     hintText: 'Search items...',
