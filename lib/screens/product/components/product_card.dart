@@ -28,6 +28,7 @@ class ProductCard extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius)),
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               width: double.infinity,
@@ -41,23 +42,18 @@ class ProductCard extends StatelessWidget {
                 height: 130,
               ),
             ),
-            const SizedBox(height: defaultPadding / 2),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    title,
-                    style: TextStyle(color: Colors.black, fontSize: 13),
-                  ),
-                ),
-              ],
+            SizedBox(height: defaultPadding / 2),
+            Expanded(
+              child: Text(
+              title,
+              style: TextStyle(color: Colors.black, fontSize: 13),
+              ),
             ),
-            Row(children: [
-              Text(
-                  "\$" + price.toString(),
-                  style: TextStyle(color: primaryColor, fontSize: 13),
-                ),
-              ],
+            Expanded( 
+              child: Text(
+                "\$" + price.toString(),
+                 style: TextStyle(color: primaryColor, fontSize: 13),
+              ),
             )
           ],
         ),

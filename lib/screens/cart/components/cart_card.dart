@@ -40,13 +40,15 @@ class CartCard extends StatelessWidget {
           ),
         ),
         SizedBox(width: 20),
+        Flexible( child: 
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: TextStyle(color: Colors.black, fontSize: 16),
-              maxLines: 2,
+          children: [                   
+              Text(
+                title,
+                style: TextStyle(color: Colors.black, fontSize: 16),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
             ),
             SizedBox(height: 10),
             Text.rich(
@@ -62,6 +64,7 @@ class CartCard extends StatelessWidget {
               ),
             )
           ],
+        )
         ),
         Spacer(),
         Container(

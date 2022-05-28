@@ -47,6 +47,7 @@ class ProductCard extends StatelessWidget {
               child: Text(
               title,
               style: const TextStyle(color: Colors.black),
+              maxLines: 1,
               ),
             ),
             Expanded(child:  Text(

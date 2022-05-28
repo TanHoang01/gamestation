@@ -30,7 +30,7 @@ class _BodyState extends State<Body> {
                     else return Text("null");
                 }
               },
-            );      ;
+            );  
   }
   Widget buildproduct(List<Product> list) {
     return Padding(
