@@ -133,7 +133,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
 
     // writing all the values
     billModel.username = (await Users.getUserInst(auth.FirebaseAuth.instance.currentUser!.uid)).fullname;
-    billModel.dateTime = DateTime.now();
+    billModel.datetime = DateTime.now();
     billModel.total = total;
     billModel.detail = detail;
     await firebaseFirestore

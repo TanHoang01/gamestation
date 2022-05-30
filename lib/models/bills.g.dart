@@ -8,7 +8,7 @@ part of 'bills.dart';
 
 Bill _$BillFromJson(Map<String, dynamic> json) => Bill(
       json['username'] as String,
-      json['datetime'] as DateTime,
+      (json['datetime'] as Timestamp).toDate(),
       json['total'] as double,
       json['detail'] as String
     );

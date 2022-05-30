@@ -2,17 +2,17 @@ import 'dart:ffi';
 
 class BillModel {
   String? username;
-  DateTime? dateTime;
+  DateTime? datetime;
   double? total;
   String? detail;
 
-  BillModel({this.username, this.dateTime, this.total, this.detail});
+  BillModel({this.username, this.datetime, this.total, this.detail});
 
   // receiving data from server
   factory BillModel.fromMap(map) {
     return BillModel(
       username: map['username'],
-      dateTime: map['datetime'],
+      datetime: map['datetime'],
       total: map['total'],
       detail: map['detail']
     );
@@ -22,7 +22,7 @@ class BillModel {
   Map<String, dynamic> toMap() {
     return {
       'username': username,
-      'dateTime': dateTime,
+      'datetime': datetime,
       'total': total,  
       'detail': detail,    
     };

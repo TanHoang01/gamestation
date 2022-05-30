@@ -11,7 +11,7 @@ import 'package:gamestation/controllers/firebase.dart';
 import 'package:gamestation/screens/admin_customer/customer_list_screen.dart';
 import 'package:gamestation/screens/admin_product/product_list_screen.dart';
 import 'package:gamestation/screens/chat/chat_screen.dart';
-//import 'package:gamestation/screens/chat/';
+import 'package:gamestation/screens/admin_revenue.dart/revenue_list_screen.dart';
 import 'components/alert_dialog.dart';
 
 class HomeScreenad extends StatefulWidget {
@@ -96,7 +96,7 @@ class _HomeScreenadState extends State<HomeScreenad> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              HomeScreenad(),
+                              RevenueScreen(),
                           )),
                         child: Card(
                           color: Color(0xFFC8E6C9),
