@@ -1,16 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gamestation/controllers/firebase.dart';
 import 'package:gamestation/models/products.dart';
 import 'package:gamestation/models/cart_model.dart';
 import 'package:gamestation/default_button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gamestation/models/bills_model.dart';
+import 'package:gamestation/models/cart_model.dart';
+import 'package:gamestation/models/users_model.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../constants.dart';
 
-class CheckoutCard extends StatelessWidget {
+class CheckoutCard extends StatefulWidget {
   const CheckoutCard({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<CheckoutCard> createState() => _CheckoutCardState();
+}
+
+class _CheckoutCardState extends State<CheckoutCard> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Product>>(
@@ -31,6 +43,7 @@ class CheckoutCard extends StatelessWidget {
               },
             );  
   }
+
    Widget buildproduct(List<Product> list) {
     double total = 0; 
     for(int i = 0; i<list.length ;i++) {
@@ -80,7 +93,11 @@ class CheckoutCard extends StatelessWidget {
                   width: 190,
                   child: DefaultButton(
                     text: "Check Out",
-                    press: () {},
+                    press: () async {
+                      List<String> listid = await add(list);
+                      listid.forEach((element) => remove(auth.FirebaseAuth.instance.currentUser!.uid + element));
+                      Navigator.of(context).pop();
+                    },
                   ),
                 ),
               ],
@@ -89,5 +106,57 @@ class CheckoutCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future <List<String>> add(List<Product> list) async {  
+      try {
+        return postDetailsToFirestore(list);
+      } on FirebaseException catch (error){
+        return [];
+      }
+  }
+
+  Future<List<String>> postDetailsToFirestore(List<Product> list) async {
+    // calling our firestore
+    // calling our user model
+    // sedning these values
+    double total = 0; 
+    String detail = "";
+    for(int i = 0; i<list.length ;i++) {
+      total = total + list[i].price * list[i].amount;
+      detail = detail + "Product name: " + list[i].name + " -" + " Amount: " + list[i].amount.toString() + " / ";
+    }
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    BillModel billModel = BillModel();
+
+    // writing all the values
+    billModel.username = (await Users.getUserInst(auth.FirebaseAuth.instance.currentUser!.uid)).fullname;
+    billModel.dateTime = DateTime.now();
+    billModel.total = total;
+    billModel.detail = detail;
+    await firebaseFirestore
+        .collection("bills")
+        .doc()
+        .set(billModel.toMap());
+    Fluttertoast.showToast(msg: "Bill created successfully :) ");
+    return list.map((e) => e.id).toList();
+  }
+
+   void remove(String listid) async { 
+      try {
+        deleteDetailsToFirestore(listid);
+      } on FirebaseException catch (error){}
+    }
+
+  deleteDetailsToFirestore(String listid) async {
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    await firebaseFirestore
+        .collection("cart")
+        .doc(listid)
+        .delete();
   }
 }
