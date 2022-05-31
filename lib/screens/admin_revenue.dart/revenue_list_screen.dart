@@ -1,4 +1,5 @@
 import 'package:gamestation/models/bill_model.dart';
+import 'package:gamestation/screens/admin_revenue.dart/revenue_chart.dart';
 
 import 'components/body.dart';
 import 'package:gamestation/screens/admin_home/home_screen.dart';
@@ -32,9 +33,19 @@ class _RevenueScreen extends State<RevenueScreen> {
             ),
             title: Center(child: Text('Revenue detail', textAlign: TextAlign.center, style: TextStyle(color: primaryColor),)),
             actions: [
-                 Icon(Icons.shopping_cart,
-                          color: barColor,
-                          size: 30.0,),
+                IconButton(
+                  icon: Icon(Icons.map_outlined,
+                            color: iconColor,
+                            size: 25.0,),
+                    onPressed: () {
+                      Navigator.push(
+                                context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ChartScreen(),
+                      ));
+                    },
+                  ),
             ],
           ),    
         body: ListView(

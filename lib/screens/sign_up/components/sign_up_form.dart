@@ -10,6 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gamestation/models/user_model.dart';
+import 'package:email_auth/email_auth.dart';
 
 class SignUpForm extends StatefulWidget {
   @override
@@ -29,6 +30,7 @@ class _SignUpFormState extends State<SignUpForm> {
   final fullNameEditingController = new TextEditingController();
   final phoneNumberEditingController = new TextEditingController();
   final emailEditingController = new TextEditingController();
+  final otpEditingController = new TextEditingController();
   final addressEditingController = new TextEditingController();
   final passwordEditingController = new TextEditingController();
   final confirmPasswordEditingController = new TextEditingController();
@@ -132,7 +134,37 @@ class _SignUpFormState extends State<SignUpForm> {
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.mail),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          suffixIcon: GestureDetector(
+            onTap: () {
+              sendOTP();
+            },
+            child: Container(
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+              child: Text('Send OTP')),),
           hintText: "Email",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ));
+
+     final otpNumberField = TextFormField(
+        autofocus: false,
+        controller: otpEditingController,
+        keyboardType: TextInputType.number,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return ("OTP cannot be Empty");
+          }
+          return null;
+        },
+        onSaved: (value) {
+          fullNameEditingController.text = value!;
+        },
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.verified_outlined),
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "OTP",
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -221,6 +253,8 @@ class _SignUpFormState extends State<SignUpForm> {
                     SizedBox(height: 20),
                     emailField,
                     SizedBox(height: 20),
+                    otpNumberField,
+                    SizedBox(height: 20),
                     addressField,
                     SizedBox(height: 20),
                     passwordField,
@@ -234,8 +268,8 @@ class _SignUpFormState extends State<SignUpForm> {
               );
               
   }
-    void signUp(String email, String password) async {
-    if (_formKey.currentState!.validate()) {
+   void signUp(String email, String password) async {
+    if (_formKey.currentState!.validate() && verifyOTP() == true) {
       try {
         await _auth
             .createUserWithEmailAndPassword(email: email, password: password)
@@ -323,6 +357,24 @@ class _SignUpFormState extends State<SignUpForm> {
         (context),
         MaterialPageRoute(builder: (context) => HomeScreen()),
         (route) => false);
+  }
+  void sendOTP() async {
+    var res = await EmailAuth(sessionName: "GameStation").sendOtp(recipientMail: emailEditingController.text);
+    if(res){
+      Fluttertoast.showToast(msg: "Please check your email for OTP code ");
+    }else{
+      Fluttertoast.showToast(msg: "We could not send OTP to your email");
+    }
+  }
+
+  bool verifyOTP() {
+    var res = EmailAuth(sessionName: "Verify OTP").validateOtp(recipientMail: emailEditingController.text, userOtp: otpEditingController.text);
+    if(res){
+      return true;
+    }else{
+      Fluttertoast.showToast(msg: "Please enter valid OTP code ");
+      return false;
+    }
   }
 }
 
