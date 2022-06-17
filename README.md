@@ -5,7 +5,7 @@
 - Cơ sở dữ liệu được lưu trữ tại Firebase.
 
 ## Các chức năng chính
-- Đăng nhập, đăng xuất bằng email và password.
+- Đăng nhập, đăng ký bằng email và password.
 - Admin: quản lý khách hàng, thêm, xóa, sửa hàng hóa, quản lý doanh thu, chat với tất cả khách hàng,..
 - User: Xem hàng hóa, tìm kiếm hàng hóa theo tên, thêm vào danh sách yêu thích, thêm vào giỏ hàng, chat với admin,...
 
