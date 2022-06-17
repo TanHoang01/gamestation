@@ -98,10 +98,16 @@ class _Profile extends State<Profile> {
                             buttonTheme: ButtonTheme.of(context).copyWith(
                                 materialTapTargetSize:
                                     MaterialTapTargetSize.shrinkWrap)),
-                        child: OutlineButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(30))),
-                          child: Text('Save'),
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(                              
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                ),
+                                side: BorderSide(width: 2, color: primaryColor),
+                              ),
+                          child: Text('Save',
+                            style: TextStyle(color: Colors.black)
+                          ),
                           onPressed: () => {
                             if(nameHolder.text != ""){
                             FirebaseFirestore.instance.collection("users")
@@ -146,10 +152,16 @@ class _Profile extends State<Profile> {
                             buttonTheme: ButtonTheme.of(context).copyWith(
                                 materialTapTargetSize:
                                     MaterialTapTargetSize.shrinkWrap)),
-                        child: OutlineButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(30))),
-                          child: Text('Cancel'),
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(                              
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                ),
+                                side: BorderSide(width: 2, color: Colors.blue),
+                              ),
+                          child: Text('Cancel',
+                            style: TextStyle(color: Colors.black)
+                          ),
                           onPressed: () => {
                             clearTextInput()
                           },
@@ -176,10 +188,16 @@ class _Profile extends State<Profile> {
                                 buttonTheme: ButtonTheme.of(context).copyWith(
                                     materialTapTargetSize:
                                         MaterialTapTargetSize.shrinkWrap)),
-                            child: OutlineButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(30))),
-                              child: Text('Change Password'),
+                            child: OutlinedButton(
+                              style: OutlinedButton.styleFrom(                              
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                ),
+                                side: BorderSide(width: 2, color: Colors.green),
+                              ),
+                              child: Text('Change Password',
+                              style: TextStyle(color: Colors.black)
+                              ),
                               onPressed: () => {
                                 Navigator.push(
                                     context,
@@ -204,11 +222,16 @@ class _Profile extends State<Profile> {
                             buttonTheme: ButtonTheme.of(context).copyWith(
                                 materialTapTargetSize:
                                     MaterialTapTargetSize.shrinkWrap)),
-                        child: OutlineButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30))),
-                            child: Text('Log out'),
+                        child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(                              
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                ),
+                                side: BorderSide(width: 2, color: Colors.red),
+                              ),
+                            child: Text('Log out',
+                              style: TextStyle(color: Colors.black)
+                            ),
                             onPressed: () async {
                               final action = await AlertDialogs.yesCancelDialog(
                                   context, 'Logout', 'Are you sure to quit?');

@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gamestation/models/user_model.dart';
 import 'package:email_auth/email_auth.dart';
+import 'package:email_otp/email_otp.dart';
 
 class SignUpForm extends StatefulWidget {
   @override
@@ -22,7 +23,7 @@ class _SignUpFormState extends State<SignUpForm> {
   
   // string for displaying the error Message
   String? errorMessage;
-
+  Email_OTP myauth = Email_OTP();
 
   // our form key
   final _formKey = GlobalKey<FormState>();
@@ -135,8 +136,24 @@ class _SignUpFormState extends State<SignUpForm> {
           prefixIcon: Icon(Icons.mail),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           suffixIcon: GestureDetector(
-            onTap: () {
-              sendOTP();
+            onTap: () async {
+              //sendOTP();
+              myauth.setConfig(
+                            appEmail: "manhtan12327@gmail.com",
+                            appName: "GameStation OTP",
+                            userEmail: emailEditingController.text,
+                          );
+               if (await myauth.sendOTP() == true) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text("OTP has been sent to your email"),
+                            ));
+                          } else {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text("Oops, OTP send failed"),
+                            ));
+                          }
             },
             child: Container(
               padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
@@ -269,7 +286,7 @@ class _SignUpFormState extends State<SignUpForm> {
               
   }
    void signUp(String email, String password) async {
-    if (_formKey.currentState!.validate() && verifyOTP() == true) {
+    if (_formKey.currentState!.validate() && await myauth.verifyOTP(otp: otpEditingController.text) == true) {
       try {
         await _auth
             .createUserWithEmailAndPassword(email: email, password: password)
@@ -358,23 +375,23 @@ class _SignUpFormState extends State<SignUpForm> {
         MaterialPageRoute(builder: (context) => HomeScreen()),
         (route) => false);
   }
-  void sendOTP() async {
-    var res = await EmailAuth(sessionName: "GameStation").sendOtp(recipientMail: emailEditingController.text);
-    if(res){
-      Fluttertoast.showToast(msg: "Please check your email for OTP code ");
-    }else{
-      Fluttertoast.showToast(msg: "We could not send OTP to your email");
-    }
-  }
+  // void sendOTP() async {
+  //   var res = await EmailAuth(sessionName: "GameStation").sendOtp(recipientMail: emailEditingController.text);
+  //   if(res){
+  //     Fluttertoast.showToast(msg: "Please check your email for OTP code ");
+  //   }else{
+  //     Fluttertoast.showToast(msg: "We could not send OTP to your email");
+  //   }
+  // }
 
-  bool verifyOTP() {
-    var res = EmailAuth(sessionName: "Verify OTP").validateOtp(recipientMail: emailEditingController.text, userOtp: otpEditingController.text);
-    if(res){
-      return true;
-    }else{
-      Fluttertoast.showToast(msg: "Please enter valid OTP code ");
-      return false;
-    }
-  }
+  // bool verifyOTP() {
+  //   var res = EmailAuth(sessionName: "Verify OTP").validateOtp(recipientMail: emailEditingController.text, userOtp: otpEditingController.text);
+  //   if(res){
+  //     return true;
+  //   }else{
+  //     Fluttertoast.showToast(msg: "Please enter valid OTP code ");
+  //     return false;
+  //   }
+  // }
 }
 
