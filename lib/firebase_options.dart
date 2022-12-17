@@ -17,16 +17,32 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      case TargetPlatform.windows:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      case TargetPlatform.linux:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for linux - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       default:
@@ -36,32 +52,11 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDhxXRBITDgMgeDFwz264BWyK2BowaruFo',
-    appId: '1:700589840093:web:d53a074857484a02816d34',
-    messagingSenderId: '700589840093',
-    projectId: 'gamestation-31a73',
-    authDomain: 'gamestation-31a73.firebaseapp.com',
-    storageBucket: 'gamestation-31a73.appspot.com',
-    measurementId: 'G-690SRFFTJD',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyATssVE9ge6kngjrSEpgHcoHJPgzyv6ung',
-    appId: '1:700589840093:android:cc41e66781ff6e1c816d34',
-    messagingSenderId: '700589840093',
-    projectId: 'gamestation-31a73',
-    storageBucket: 'gamestation-31a73.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyD0WYkqq-qeJYbfDgIcVtrbxk5FITTePvY',
-    appId: '1:700589840093:ios:76696d0ebcc59708816d34',
-    messagingSenderId: '700589840093',
-    projectId: 'gamestation-31a73',
-    storageBucket: 'gamestation-31a73.appspot.com',
-    androidClientId: '700589840093-skhv1gvrui3gu7afn547dhgdtecubtji.apps.googleusercontent.com',
-    iosClientId: '700589840093-b3b3ucms64llmipll083k50abmcrsp1e.apps.googleusercontent.com',
-    iosBundleId: 'com.example.gamestation',
+    apiKey: 'AIzaSyDSH0U2W5LaHQwbBFLMw6yoXBNyoHMU634',
+    appId: '1:387030189635:android:51ee59247c93c02cd1b6f6',
+    messagingSenderId: '387030189635',
+    projectId: 'gamestationv2-1a46f',
+    storageBucket: 'gamestationv2-1a46f.appspot.com',
   );
 }

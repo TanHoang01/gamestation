@@ -6,15 +6,19 @@ import 'package:gamestation/screens/cart/cart_screen.dart';
 import 'package:gamestation/screens/cart/components/body.dart';
 import 'package:gamestation/screens/chat/chat_client.dart';
 import 'package:gamestation/screens/chat/chat_screen_detail.dart';
+import 'package:gamestation/screens/navigation_social/navigationBar.dart';
 import 'package:gamestation/screens/profile/profile_screen.dart';
 import 'package:gamestation/screens/chat/chat_screen.dart';
 import 'package:gamestation/screens/favorite/favorite_screen.dart';
 import 'package:gamestation/screens/search/search_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:iconsax/iconsax.dart';
+import '../dashboard/dashboard.dart';
 import 'components/categories.dart';
 import 'components/new_arrival_products.dart';
 import 'components/popular_products.dart';
 import 'components/controller_and_accessory.dart';
+import 'package:sticky_float_button/sticky_float_button.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -25,11 +29,12 @@ class _HomeScreen extends State<HomeScreen> {
   int _index = 0;
   final searchController = new TextEditingController();
   List<Widget> tabPages = [Home(), Favorite(), messageClientScreen(), Profile()];
+  String uid='';
   @override
   void initState() {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    final uid = user?.uid;
+    User? user = FirebaseAuth.instance.currentUser;
+    final userid = user?.uid.toString();
+    uid = userid!;
     super.initState();
   }
 
@@ -118,7 +123,49 @@ class _HomeScreen extends State<HomeScreen> {
             ),
           ],
         ),
-        body: tabPages[_index],
+        body: Builder(
+         builder: (context) {
+           return Stack(children: [
+            tabPages[_index],
+            Container(
+              alignment: Alignment.bottomRight,
+              margin: EdgeInsets.only(right: 12,bottom: 12),
+              child: GestureDetector(
+                onTap:() {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>navigationBar(required,uid: uid,)));
+                },
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        spreadRadius: 5,
+                        blurRadius: 10,
+                        offset: Offset(0, 2), // changes position of shadow
+                      ),
+                    ],
+                  ),                
+                  child: StickyFloatButton(
+                     child: CircleAvatar(
+                         backgroundColor: primaryColor,
+                         child: Icon(
+                              Iconsax.personalcard5,
+                              color: Colors.white,
+                              size: 30,
+                              shadows: [
+                                
+                              ],
+                         ),
+                     ),
+                   ),
+                ),
+              ),
+            )
+          ]);}
+        ),
         bottomNavigationBar: _bottomTab());
   }
 }

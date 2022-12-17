@@ -39,7 +39,7 @@ class ProductCard extends StatelessWidget {
               ),
               child: Image.network(
                 image,
-                height: 130,
+                height: 110,
               ),
             ),
             SizedBox(height: defaultPadding / 2),
@@ -47,6 +47,7 @@ class ProductCard extends StatelessWidget {
               child: Text(
               title,
               style: TextStyle(color: Colors.black, fontSize: 13),
+              maxLines: 1,
               ),
             ),
             Expanded(

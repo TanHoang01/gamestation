@@ -141,7 +141,7 @@ class _SignFormState extends State<SignForm> {
         await _auth
             .signInWithEmailAndPassword(email: email, password: password)
             .then((uid) => {
-               if(uid.user!.uid == "0wljuA9yIdRyMXQMKXTAmIbDWsJ2"){
+               if(uid.user!.uid == "dPG6y5dm3xZ0e4eyfqeJ7q47bKK2"){
                 Fluttertoast.showToast(msg: "Welcome Ad"),
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => HomeScreenad())),

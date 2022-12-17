@@ -134,7 +134,7 @@ class _messageClientScreenState extends State<messageClientScreen> {
                 ),
                 SizedBox(height: 20),
                 Container(
-                  height: 500 - 31,
+                  height: 400 - 31,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
@@ -146,7 +146,7 @@ class _messageClientScreenState extends State<messageClientScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                            height: 1000,
+                            height: 400,
                             child: Container(
                                 // scrollDirection: Axis.vertical,
                                 child: Column(
@@ -314,7 +314,7 @@ class _messageClientScreenState extends State<messageClientScreen> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(16.0)),
                                 border: Border.all(color: Colors.black),
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                           child: Row(
                             children: <Widget>[
@@ -323,6 +323,7 @@ class _messageClientScreenState extends State<messageClientScreen> {
                                   child: Form(
                                 key: messageFormKey,
                                 child: TextField(
+                                  style: TextStyle(color: Colors.white),
                                     controller: messageController,
                                     // onChanged: (value) => setState(() {
                                     //       message = value;

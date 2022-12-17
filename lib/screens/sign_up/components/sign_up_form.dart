@@ -23,7 +23,7 @@ class _SignUpFormState extends State<SignUpForm> {
   
   // string for displaying the error Message
   String? errorMessage;
-  Email_OTP myauth = Email_OTP();
+  EmailOTP myauth = EmailOTP();
 
   // our form key
   final _formKey = GlobalKey<FormState>();
@@ -35,6 +35,7 @@ class _SignUpFormState extends State<SignUpForm> {
   final addressEditingController = new TextEditingController();
   final passwordEditingController = new TextEditingController();
   final confirmPasswordEditingController = new TextEditingController();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +143,10 @@ class _SignUpFormState extends State<SignUpForm> {
                             appEmail: "manhtan12327@gmail.com",
                             appName: "GameStation OTP",
                             userEmail: emailEditingController.text,
+                            otpLength: 6,
+                            otpType: OTPType.digitsOnly
                           );
+                          
                if (await myauth.sendOTP() == true) {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(const SnackBar(
@@ -346,7 +350,7 @@ class _SignUpFormState extends State<SignUpForm> {
         .set(userModel.toMap()).then((value) {
           FirebaseFirestore.instance.collection("messages").add({
             'userId1': user.uid,
-            'userId2':'0wljuA9yIdRyMXQMKXTAmIbDWsJ2',
+            'userId2':'dPG6y5dm3xZ0e4eyfqeJ7q47bKK2',
             'name1': fullNameEditingController.text,
             'name2': "Admin",
             'contentList': FieldValue.arrayUnion([""]),
@@ -365,7 +369,19 @@ class _SignUpFormState extends State<SignUpForm> {
         .doc(user.uid).update({'messageId': value.id,});
             });
           });
-
+          firebaseFirestore
+        .collection("users_social").add({
+          'avatar':'https://i.imgur.com/ddLKP53.png',
+          'email':emailEditingController.text,
+          'favoriteList':FieldValue.arrayUnion([]),
+          'follow':FieldValue.arrayUnion([]),
+          'fullName':fullNameEditingController.text,
+          'id':user.uid,
+          'saveList':FieldValue.arrayUnion([]),
+        }).then((value) {
+          firebaseFirestore
+        .collection("users_social").doc(value.id).update({'id_social':value.id});
+        });
         });
     Fluttertoast.showToast(msg: "Account created successfully :) ");
 

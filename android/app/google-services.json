@@ -1,41 +1,34 @@
 {
   "project_info": {
-    "project_number": "700589840093",
-    "project_id": "gamestation-31a73",
-    "storage_bucket": "gamestation-31a73.appspot.com"
+    "project_number": "387030189635",
+    "firebase_url": "https://gamestationv2-1a46f-default-rtdb.firebaseio.com",
+    "project_id": "gamestationv2-1a46f",
+    "storage_bucket": "gamestationv2-1a46f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:700589840093:android:cc41e66781ff6e1c816d34",
+        "mobilesdk_app_id": "1:387030189635:android:51ee59247c93c02cd1b6f6",
         "android_client_info": {
           "package_name": "com.example.gamestation"
         }
       },
       "oauth_client": [
         {
-          "client_id": "700589840093-skhv1gvrui3gu7afn547dhgdtecubtji.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.gamestation",
-            "certificate_hash": "afba37a764160299bcac1ac55c6c83ae15eee860"
-          }
-        },
-        {
-          "client_id": "700589840093-7e00ck1d9gcmda4cu72cnufo9lish1s3.apps.googleusercontent.com",
+          "client_id": "387030189635-o3co5grh949j4hi0so314bjm4mh41fgk.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyATssVE9ge6kngjrSEpgHcoHJPgzyv6ung"
+          "current_key": "AIzaSyDSH0U2W5LaHQwbBFLMw6yoXBNyoHMU634"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "700589840093-7e00ck1d9gcmda4cu72cnufo9lish1s3.apps.googleusercontent.com",
+              "client_id": "387030189635-o3co5grh949j4hi0so314bjm4mh41fgk.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

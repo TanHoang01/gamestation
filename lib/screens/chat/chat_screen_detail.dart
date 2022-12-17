@@ -182,7 +182,7 @@ class _messageDetailScreenState extends State<messageDetailScreen> {
                 Container(
                   height: 640 - 31,
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Color.fromARGB(255, 93, 192, 225),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(36.0),
                         topRight: Radius.circular(36.0),
@@ -192,7 +192,7 @@ class _messageDetailScreenState extends State<messageDetailScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                            height: 518,
+                            height: 400,
                             child: SingleChildScrollView(
                                 scrollDirection: Axis.vertical,
                                 child: Column(
@@ -344,8 +344,7 @@ class _messageDetailScreenState extends State<messageDetailScreen> {
                                     ),
                                   ],
                                 ))),
-                        SizedBox(height: 24),
-                        Container(
+                                Container(
                           height: 54,
                           width: 319+48,
                           alignment: Alignment.center,
@@ -354,7 +353,7 @@ class _messageDetailScreenState extends State<messageDetailScreen> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(24.0)),
                                 border: Border.all(color: Colors.black),
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                           child: Row(
                             children: <Widget>[
@@ -374,7 +373,11 @@ class _messageDetailScreenState extends State<messageDetailScreen> {
                                         messageController.clear();
                                       });
                                     },
-                                    decoration: InputDecoration(
+                                    style: TextStyle(
+                                      color: Colors.white
+                                    ),
+                                    decoration: const InputDecoration(
+                                      
                                       border: InputBorder.none,
                                       hintStyle: TextStyle(
                                         fontFamily: 'Poppins',
@@ -395,7 +398,6 @@ class _messageDetailScreenState extends State<messageDetailScreen> {
                                   decoration: BoxDecoration(
                                     color: Colors.lightBlue,
                                     borderRadius: BorderRadius.circular(24),
-                                    
                                   ),
                                   child: Container(
                                       margin: EdgeInsets.only(right: 8),
@@ -418,7 +420,7 @@ class _messageDetailScreenState extends State<messageDetailScreen> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 40)
+                        // SizedBox(height: 24),
                       ],
                     ),
                   ),

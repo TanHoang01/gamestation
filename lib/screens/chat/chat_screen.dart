@@ -101,7 +101,7 @@ class _adminMessagesScreenState extends State<adminMessagesScreen> {
                 SizedBox(height: 20),
                 Container(
                     padding: EdgeInsets.only(left: 28, right: 28),
-                    height: 580,
+                    height: 580-88,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(36),
@@ -240,7 +240,7 @@ class _adminMessagesScreenState extends State<adminMessagesScreen> {
                                   )),
                             );
                           }),
-                      SizedBox(height: 24)
+                      // SizedBox(height: 24)
                     ])))
               ],
             ),
