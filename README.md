@@ -1,4 +1,4 @@
-# gamestation
+# GameStation
 
 - Đây là đồ án môn học Đồ án 1 - SE121.M21.PMCL và Đồ án 2 - SE122.N11.PMCL.
 - Đề tài Đồ án 1 - Xây dựng ứng dụng quản lý và bán máy chơi game hệ console bằng ngôn ngữ dart (Flutter).
